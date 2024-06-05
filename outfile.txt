@@ -1,0 +1,5 @@
+a.out
+example
+infile.txt
+main.c
+outfile.txt
