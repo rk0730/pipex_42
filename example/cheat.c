@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 		close(pipefd[1]);  // 書き込みエンドを閉じる
 		dup2(pipefd[0], STDIN_FILENO);
 
-		//waitする前にあらかじめ読んで実行することがポイント
+		//waitする前にあらかじめ読んで実行
 		char *exe_argv[] = {"/bin/bash", NULL};
 		char *exe_envp[] = {NULL};
 		// execve関数を使用して新しいプログラムを実行
