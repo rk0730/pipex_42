@@ -2,11 +2,11 @@
 #include <unistd.h>
 
 int main() {
-	char *argv[] = {"/bin/cat", NULL};
+	char *argv[] = {"/bin/ls -l", NULL};
 	char *envp[] = {NULL};
 
 	// execve関数を使用して新しいプログラムを実行
-	if (execve("/bin/cat", argv, envp) == -1) {
+	if (execve("/bin/ls", argv, envp) == -1) {
 		// perror("execve");
 		write(2, "command not found\n", 18);
 		return 1;
