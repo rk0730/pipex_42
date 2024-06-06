@@ -1,17 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/wait.h>
+#include <string.h>
 
-#include "get_next_line/get_next_line.h"
-
-// ccw example/pipe.c example/get_next_line/* && ./a.out
-
-int main() {
+int main(int argc, char **argv) {
 	int pipefd[2];
 	pid_t pid;
-	char buf;
 
 	// パイプの作成
 	if (pipe(pipefd) == -1) {
@@ -29,27 +24,37 @@ int main() {
 		// 子プロセス
 		close(pipefd[0]);  // 読み取りエンドを閉じる
 
-		// const char *msg = "Hello from child!";
-		// write(pipefd[1], msg, strlen(msg));
-		char *line;
-		while ((line = get_next_line(STDIN_FILENO))!= NULL) {
-			write(pipefd[1], line, strlen(line));
-			free(line);
+		write(pipefd[1], "< ", 2);
+		write(pipefd[1], argv[1], strlen(argv[1]));
+		int i = 2;
+		while (i < argc - 2)
+		{
+			write(pipefd[1], " ", 1);
+			write(pipefd[1], argv[i], strlen(argv[i]));
+			write(pipefd[1], " |", 2);
+			i++;
 		}
+		write(pipefd[1], " ", 1);
+		write(pipefd[1], argv[argc - 2], strlen(argv[argc - 2]));
+		write(pipefd[1], " > ", 3);
+		write(pipefd[1], argv[argc - 1], strlen(argv[argc - 1]));
+		
 		close(pipefd[1]);  // 書き込みエンドを閉じる
 		exit(EXIT_SUCCESS);
 	} else {
 		// 親プロセス
 		close(pipefd[1]);  // 書き込みエンドを閉じる
+		dup2(pipefd[0], STDIN_FILENO);
 
-		printf("Parent process reading from pipe:\n");
-		while (read(pipefd[0], &buf, 1) > 0) {
-			write(STDOUT_FILENO, &buf, 1);
-		}
 		//waitする前にあらかじめ読んで実行することがポイント
+		char *exe_argv[] = {"/bin/bash", NULL};
+		char *exe_envp[] = {NULL};
+		// execve関数を使用して新しいプログラムを実行
+		if (execve("/bin/bash", exe_argv, exe_envp) == -1) {
+			perror("execve");
+			return 1;
+		}
 
-
-		write(STDOUT_FILENO, "\n", 1);
 		close(pipefd[0]);  // 読み取りエンドを閉じる
 		wait(NULL);  // 子プロセスの終了を待つ
 		exit(EXIT_SUCCESS);
