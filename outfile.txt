@@ -1,6 +1,1 @@
-a.out
-example
-ft_pipex.h
-infile.txt
-main.c
-outfile.txt
+      10$

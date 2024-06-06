@@ -1,14 +1,11 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int	main()
 {
-	if (access("/bin/ls -l", X_OK) == 0)
-	{
-		printf("File is executable.\n");
-	}
-	else
-	{
-		printf("File is not executable.\n");
-	}
+	char	*str = (char *)malloc(sizeof(char) * 10);
+	str = "Hello";
+	write(1, str, 5);
+	return (0);
 }
