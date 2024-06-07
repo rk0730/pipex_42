@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 20:16:35 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/07 21:26:54 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 
 
-static void	ft_exe_rel_cmd(char *cmd, char **path_array)
+static int	ft_exe_rel_cmd(char *cmd, char **path_array)
 {
 	char	*tmp;
 	char	*full_cmd;
@@ -42,9 +42,10 @@ static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 		i++;
 	}
 	ft_printf_fd(STDERR_FILENO, "%s: command not found\n", cmd);
+	return (-1);
 }
 
-void	ft_exe_cmd(char *cmd, char **path_array)
+int	ft_exe_cmd(char *cmd, char **path_array)
 {
 	char	**exe_argv;
 
@@ -64,4 +65,5 @@ void	ft_exe_cmd(char *cmd, char **path_array)
 		// 相対パス
 		ft_exe_rel_cmd(cmd, path_array);
 	}
+	return (-1);
 }
