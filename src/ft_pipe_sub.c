@@ -6,18 +6,16 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:53:17 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 14:49:46 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/07 19:44:45 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
 
-//まだ完成してない
-
-ft_pipe(char **argv, char **path_array)
+void	ft_pipe(char **argv, char **path_array)
 {
 	int pipe_fd[2];
-	pid_t pid1, pid2;
+	pid_t pid;
 
 	// パイプの作成
 	if (pipe(pipe_fd) == -1)
@@ -27,13 +25,13 @@ ft_pipe(char **argv, char **path_array)
 	}
 
 	// forkする
-	pid1 = fork();
-	if (pid1 == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		perror("fork in ft_pipe");
 		exit(EXIT_FAILURE);
 	}
-	else if (pid1 == 0)
+	else if (pid == 0)
 	{
 		// 子プロセス
 		close(pipe_fd[0]);
