@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:33:52 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 21:02:30 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/07 21:20:22 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char	**path_array;
+	t_cmd_info	cmd_info;
 
 	if (argc == 0)
 	{
@@ -23,19 +24,31 @@ int	main(int argc, char **argv, char **envp)
 	}
 	//----------------------------------------------------------------
 	// エラー処理
-	if (argc != 5)
+	if (argc < 4)
 	{
-		ft_printf_fd(STDERR_FILENO, "Usage: %s file1 cmd1 cmd2 file2\n",
+		ft_printf_fd(STDERR_FILENO, "Usage: %s file1 cmd1 ... cmdn file2\n",
 			argv[0]);
 		return (1);
 	}
 	path_array = ft_gen_path_array(envp);
 
-	ft_pipe(argv, path_array);
-
-
+	// ft_pipe(argv, path_array);
+	
+	cmd_info.argc = argc;
+	cmd_info.first_cmd = 2;
+	cmd_info.argv = argv;
+	cmd_info.path_array = path_array;
+	cmd_info.infile_fd = open(argv[1], O_RDONLY);
+	if (cmd_info.infile_fd == -1)
+	{
+		perror("open infile in main");
+		return (1);
+	}
+	// ft_printf_fd(STDERR_FILENO, "argv[argc-1]: %s\n", argv[argc-1]);
+	cmd_info.outfile_fd = open(argv[argc-1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	// ft_printf_fd(STDERR_FILENO, "out_fd: %d\n", cmd_info.outfile_fd);
 	//再帰関数
-	// ft_recursive(cmd_info, cmd_count, out_fd); cmd_count:最後に実行するコマンドの場所 argc-2、out_fd:outfileのfd
+	ft_recursive(cmd_info, argc - 2, cmd_info.outfile_fd); //cmd_count:最後に実行するコマンドの場所 argc-2、out_fd:outfileのfd
 
 
 

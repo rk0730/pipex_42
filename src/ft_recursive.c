@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 20:36:38 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 21:05:17 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/07 21:34:15 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 		dup2(out_fd, STDOUT_FILENO);
 		ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
 		close(out_fd);
-		exit(EXIT_SUCCESS);
+		ft_printf_fd(STDERR_FILENO, "first command in ft_recursive: %s\n", cmd_info.argv[cmd_count]);
+		exit(EXIT_FAILURE);
 	}
 	//最初以外のコマンド
 	pipe(pipe_fd);
@@ -43,9 +44,11 @@ void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
+	// ft_printf_fd(STDERR_FILENO, " out_fd: %d\n", out_fd);
 	dup2(out_fd, STDOUT_FILENO);
 	ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
 	close(out_fd);
 	wait(NULL);
-	exit(EXIT_SUCCESS);	
+	ft_printf_fd(STDERR_FILENO, "in ft_recursive: %s\n", cmd_info.argv[cmd_count]);
+	exit(EXIT_FAILURE);	
 }

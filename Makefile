@@ -7,7 +7,8 @@ SRCDIR = src
 SRCS = $(SRCDIR)/ft_main.c \
 	$(SRCDIR)/ft_utils.c \
 	$(SRCDIR)/ft_exe_cmd.c \
-	$(SRCDIR)/ft_pip_sub.c \
+	$(SRCDIR)/ft_pipe_sub.c \
+	$(SRCDIR)/ft_recursive.c \
 
 OBJS = $(SRCS:.c=.o)
 
