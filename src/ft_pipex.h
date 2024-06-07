@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:36:15 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/06 18:17:43 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/07 11:56:10 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 #include <sys/errno.h>
 #include <string.h>
+#include <fcntl.h>
 
 #include "../libft/libft.h"
 #include "../ft_printf_fd/ft_printf.h"
