@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:33:52 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 11:56:25 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/07 21:02:30 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int	main(int argc, char **argv, char **envp)
 	}
 	path_array = ft_gen_path_array(envp);
 
-	// ft_pipe(char **argv, char **path_array);
+	ft_pipe(argv, path_array);
 
 
-
+	//再帰関数
+	// ft_recursive(cmd_info, cmd_count, out_fd); cmd_count:最後に実行するコマンドの場所 argc-2、out_fd:outfileのfd
 
 
 
