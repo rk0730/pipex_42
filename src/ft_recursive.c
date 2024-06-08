@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_recursive.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 20:36:38 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 21:34:15 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/08 13:25:16 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	// 最初のコマンド
 	if (cmd_count == cmd_info.first_cmd)
 	{
-		dup2(cmd_info.infile_fd, STDIN_FILENO);
-		close(cmd_info.infile_fd);
-		dup2(out_fd, STDOUT_FILENO);
-		ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
+		if (cmd_info.infile_fd > 0)
+		{
+			dup2(cmd_info.infile_fd, STDIN_FILENO);
+			close(cmd_info.infile_fd);
+			dup2(out_fd, STDOUT_FILENO);
+			ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
+		}
 		close(out_fd);
 		ft_printf_fd(STDERR_FILENO, "first command in ft_recursive: %s\n", cmd_info.argv[cmd_count]);
 		exit(EXIT_FAILURE);
@@ -45,9 +48,12 @@ void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	// ft_printf_fd(STDERR_FILENO, " out_fd: %d\n", out_fd);
-	dup2(out_fd, STDOUT_FILENO);
-	ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
-	close(out_fd);
+	if (out_fd > 0)
+	{
+		dup2(out_fd, STDOUT_FILENO);
+		ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
+		close(out_fd);
+	}
 	wait(NULL);
 	ft_printf_fd(STDERR_FILENO, "in ft_recursive: %s\n", cmd_info.argv[cmd_count]);
 	exit(EXIT_FAILURE);	
