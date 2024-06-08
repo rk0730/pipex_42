@@ -55,7 +55,6 @@ BONUS_SRCS = $(SRCDIR)/ft_lstnew.c \
 	$(SRCDIR)/ft_lstiter.c \
 	$(SRCDIR)/ft_lstmap.c
 
-# BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 ifdef WITH_BONUS
@@ -68,7 +67,7 @@ NAME = libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+	$(AR) $@ $^
 
 bonus:
 	make WITH_BONUS=1

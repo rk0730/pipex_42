@@ -19,7 +19,7 @@ NAME = libftprintf.a
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+	$(AR) $@ $^
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
