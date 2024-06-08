@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exe_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/07 21:26:54 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/08 13:28:16 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	ft_exe_rel_cmd(char *cmd, char **path_array)
 		i++;
 	}
 	ft_printf_fd(STDERR_FILENO, "%s: command not found\n", cmd);
+	perror("command not found in ft_exe_rel_cmd");
 	return (-1);
 }
 
