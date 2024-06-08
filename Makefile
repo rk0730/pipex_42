@@ -7,10 +7,11 @@ SRCDIR = src
 SRCS = $(SRCDIR)/ft_main.c \
 	$(SRCDIR)/ft_utils.c \
 	$(SRCDIR)/ft_exe_cmd.c \
-	$(SRCDIR)/ft_pipe_sub.c \
+	$(SRCDIR)/ft_pipe.c \
 	$(SRCDIR)/ft_recursive.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJDIR = objs
+OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 LIBFT_DIR = libft
 LIBFT = libft.a
@@ -47,11 +48,14 @@ $(LIBFT):
 $(FTPRINTF):
 	make -C $(FTPRINTF_DIR) all
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I. -c $< -o $@
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJDIR)
 	make -C $(LIBFT_DIR) clean
 	make -C $(FTPRINTF_DIR) clean
 

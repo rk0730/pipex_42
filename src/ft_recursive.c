@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 20:36:38 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/08 14:32:45 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:19:39 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 		// ft_printf_fd(STDERR_FILENO, "first command in ft_recursive: %s\n", cmd_info.argv[cmd_count]);
 		exit(EXIT_FAILURE);
 	}
-	//最初以外のコマンド
+	//途中のコマンド
 	pipe(pipe_fd);
 	pid = fork();
 	if (pid == -1)
@@ -55,6 +55,7 @@ void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 		ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
 		close(out_fd);
 	}
+	usleep(1000000);
 	wait(NULL);
 	ft_printf_fd(STDERR_FILENO, "in ft_recursive: %s\n", cmd_info.argv[cmd_count]);
 	exit(EXIT_FAILURE);	

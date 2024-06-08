@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int main() {
-	char *argv[] = {"/bin/ls -l", NULL};
-	char *envp[] = {NULL};
+int main(int argc, char **argv, char **envp) {
+	char *argv_p[] = {"/bin/ls", "-l", NULL};
+	char *envp_p[] = {NULL};
 
+	int i = -1;
+	while (envp[++i])
+		envp[i] = NULL;
 	// execve関数を使用して新しいプログラムを実行
-	if (execve("/bin/ls", argv, envp) == -1) {
+	if (execve("/bin/ls", argv_p, envp) == -1) {
 		// perror("execve");
 		write(2, "command not found\n", 18);
 		return 1;
