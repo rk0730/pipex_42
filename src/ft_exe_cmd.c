@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/08 13:28:16 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:21:45 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 
 
-static int	ft_exe_rel_cmd(char *cmd, char **path_array)
+static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 {
 	char	*tmp;
 	char	*full_cmd;
@@ -35,6 +35,7 @@ static int	ft_exe_rel_cmd(char *cmd, char **path_array)
 			if (execve(exe_argv[0], exe_argv, NULL) == -1)
 			{
 				perror("execve in ft_exe_rel_cmd");
+				exit(EXIT_FAILURE);
 			}
 		}
 		free(full_cmd);
@@ -43,10 +44,10 @@ static int	ft_exe_rel_cmd(char *cmd, char **path_array)
 	}
 	ft_printf_fd(STDERR_FILENO, "%s: command not found\n", cmd);
 	perror("command not found in ft_exe_rel_cmd");
-	return (-1);
+	exit(EXIT_FAILURE);
 }
 
-int	ft_exe_cmd(char *cmd, char **path_array)
+void	ft_exe_cmd(char *cmd, char **path_array)
 {
 	char	**exe_argv;
 
@@ -58,6 +59,7 @@ int	ft_exe_cmd(char *cmd, char **path_array)
 		{
 			perror("execve in ft_exe_cmd");
 			ft_printf_fd(STDERR_FILENO, "%s: %s", cmd, strerror(errno));
+			exit(EXIT_FAILURE);
 		}
 		ft_free_array(exe_argv);
 	}
@@ -66,5 +68,4 @@ int	ft_exe_cmd(char *cmd, char **path_array)
 		// 相対パス
 		ft_exe_rel_cmd(cmd, path_array);
 	}
-	return (-1);
 }

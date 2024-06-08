@@ -40,7 +40,10 @@ SRCS = $(SRCDIR)/ft_isalpha.c \
 	$(SRCDIR)/ft_putendl_fd.c \
 	$(SRCDIR)/ft_putnbr_fd.c
 
-OBJS = $(SRCS:.c=.o)
+# OBJS = $(SRCS:.c=.o)
+
+OBJDIR = objs
+OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 BONUS_SRCS = $(SRCDIR)/ft_lstnew.c \
 	$(SRCDIR)/ft_lstadd_front.c \
@@ -52,7 +55,8 @@ BONUS_SRCS = $(SRCDIR)/ft_lstnew.c \
 	$(SRCDIR)/ft_lstiter.c \
 	$(SRCDIR)/ft_lstmap.c
 
-BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+# BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 ifdef WITH_BONUS
 	SRCS += $(BONUS_SRCS)
@@ -69,15 +73,18 @@ $(NAME): $(OBJS)
 bonus:
 	make WITH_BONUS=1
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS) $(BONUS_OBJS)
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all bonus norm test1 test2 test3 review cleantester clean fclean re
+.PHONY: all bonus clean fclean re

@@ -11,9 +11,8 @@ SRCS = $(SRCDIR)/ft_printf.c \
 	$(SRCDIR)/ft_convert_p.c \
 	$(SRCDIR)/ft_convert_xX.c
 
-OBJS = $(SRCS:.c=.o)
-
-TEST_SRC = main.c
+OBJDIR = objs
+OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 NAME = libftprintf.a
 
@@ -22,29 +21,18 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I. -c $< -o $@
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
-test: ft_printf.txt printf.txt
-	diff ft_printf.txt printf.txt
-
-%.txt: %
-	./$< > $@
-
-ft_printf: $(NAME) $(TEST_SRC)
-	$(CC) $(CFLAGS) -I. $^ -D FT -o $@
-
-printf: $(TEST_SRC)
-	$(CC) $(CFLAGS) -I. $^ -o $@
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean:
-	rm -f ft_printf.txt printf.txt
-	rm -f $(OBJS)
+	rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -f printf ft_printf
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all test clean fclean re
+.PHONY: all clean fclean re
