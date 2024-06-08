@@ -34,18 +34,18 @@ NAME = pipex
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(FTPRINTF)
-	$(CC) $(CFLAGS) -I. -o $(NAME) $(OBJS) $(LIBFT_DIR)/$(LIBFT) $(FTPRINTF_DIR)/$(FTPRINTF)
+$(NAME): $(OBJS) $(LIBFT_DIR)/$(LIBFT) $(FTPRINTF_DIR)/$(FTPRINTF)
+	$(CC) $(CFLAGS) -I. -o $@ $^
 
 # bonus: $(BONUS_NAME)
 
 # $(BONUS_NAME): $(BONUS_OBJS) $(LIST_OBJS) $(LIBFT) $(FTPRINTF)
 # 	$(CC) $(CFLAGS) -I. -o $(BONUS_NAME) $(BONUS_OBJS) $(LIST_OBJS) $(LIBFT_DIR)/$(LIBFT) $(FTPRINTF_DIR)/$(FTPRINTF)
 
-$(LIBFT):
+$(LIBFT_DIR)/$(LIBFT):
 	make -C $(LIBFT_DIR) all
 
-$(FTPRINTF):
+$(FTPRINTF_DIR)/$(FTPRINTF):
 	make -C $(FTPRINTF_DIR) all
 
 $(OBJDIR):
