@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:53:17 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/08 20:58:51 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/08 21:35:34 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_pipe(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	int pipe_fd[2];
 	pid_t pid;
 
-	//最初以外のコマンド
 	pipe(pipe_fd);
 	pid = fork();
 	if (pid == -1)
@@ -84,12 +83,21 @@ void	ft_pipe(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	}
 	if (pid == 0)//子プロセス
 	{
-		ft_recursive(cmd_info, cmd_count - 1, pipe_fd[1]);
+		//最後のコマンドの入力を決める
+		//最後のコマンドが最初のコマンドでもある場合（コマンドが1個）
+		if (cmd_count == cmd_info.first_cmd)
+		{
+			dup2(cmd_info.infile_fd, STDIN_FILENO);
+			close(cmd_info.infile_fd);
+		}
+		else
+		{
+			ft_recursive(cmd_info, cmd_count - 1, pipe_fd[1]);
+			close(pipe_fd[1]);
+			dup2(pipe_fd[0], STDIN_FILENO);
+			close(pipe_fd[0]);
+		}
 		//最後のコマンドを実行する、exitはしない
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-		// ft_printf_fd(STDERR_FILENO, " out_fd: %d\n", out_fd);
 		if (out_fd > 0)
 		{
 			dup2(out_fd, STDOUT_FILENO);
