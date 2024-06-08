@@ -15,7 +15,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
 LIBFT = libft.a
 
-FTPRINTF_DIR = ft_printf_fd
+FTPRINTF_DIR = ft_printf
 FTPRINTF = libftprintf.a
 
 NAME = pipex
