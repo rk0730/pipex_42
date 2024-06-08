@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:33:52 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/08 13:28:57 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/08 14:26:17 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	cmd_info.infile_fd = open(argv[1], O_RDONLY);
 	if (cmd_info.infile_fd == -1)
 	{
-		perror("open infile in main");
-		return (1);
+		ft_printf_fd(STDERR_FILENO, "%s: %s\n", argv[1], strerror(errno));
 	}
 	// ft_printf_fd(STDERR_FILENO, "argv[argc-1]: %s\n", argv[argc-1]);
 	cmd_info.outfile_fd = open(argv[argc-1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -59,10 +58,10 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-// #include <libc.h>
+#include <libc.h>
 
-// __attribute__((destructor))
-// static void destructor()
-// {
-// 	system("leaks -q pipex");
-// }
+__attribute__((destructor))
+static void destructor()
+{
+	system("leaks -q pipex");
+}
