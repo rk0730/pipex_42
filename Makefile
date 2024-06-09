@@ -5,10 +5,14 @@ CFLAGS = -Wall -Wextra -Werror
 SRCDIR = src
 
 SRCS = $(SRCDIR)/ft_main.c \
+	$(SRCDIR)/ft_check_arg.c \
 	$(SRCDIR)/ft_utils.c \
 	$(SRCDIR)/ft_exe_cmd.c \
-	$(SRCDIR)/ft_pipe.c \
-	$(SRCDIR)/ft_recursive.c \
+	$(SRCDIR)/ft_pipe.c
+
+GNL_DIR = get_next_line
+SRCS += $(SRCDIR)/$(GNL_DIR)/get_next_line.c \
+	$(SRCDIR)/$(GNL_DIR)/get_next_line_utils.c
 
 OBJDIR = objs
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
@@ -34,6 +38,8 @@ NAME = pipex
 
 all: $(NAME)
 
+bonus: $(NAME)
+
 $(NAME): $(OBJS) $(LIBFT_DIR)/$(LIBFT) $(FTPRINTF_DIR)/$(FTPRINTF)
 	$(CC) $(CFLAGS) -I. -o $@ $^
 
@@ -49,7 +55,7 @@ $(FTPRINTF_DIR)/$(FTPRINTF):
 	make -C $(FTPRINTF_DIR) all
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)/$(GNL_DIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CCFLAGS) -o $@ -c $<
