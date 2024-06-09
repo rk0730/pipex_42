@@ -6,14 +6,11 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/09 18:34:13 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:52:53 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
-
-
-
 
 static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_recursive.c                                     :+:      :+:    :+:   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 20:36:38 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/09 18:41:43 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:51:54 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,6 @@ static void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	else
 	{
 		//親プロセス
-		// close(pipe_fd[1]);
-		// dup2(pipe_fd[0], STDIN_FILENO);
-		// close(pipe_fd[0]);
-		// if (out_fd > 0)
-		// {
-		// 	dup2(out_fd, STDOUT_FILENO);
-		// 	close(out_fd);
-		// 	ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
-		// }
-		// wait(NULL);
-		// exit(EXIT_FAILURE);
 		ft_parent(cmd_info, cmd_count, out_fd, pipe_fd);
 	}
 }
@@ -85,13 +74,11 @@ void	ft_pipe(t_cmd_info cmd_info, int cmd_count, int outfile_fd)
 	pid = fork();
 	if (pid == 0)//子プロセス
 	{
-		// ft_printf_fd(STDERR_FILENO, "ft_pipe child process: %d\n", getpid());
 		ft_recursive(cmd_info, cmd_count, outfile_fd);
 	}
 	else
 	{
 		//親プロセス
 		wait(NULL);
-		// ft_printf_fd(STDERR_FILENO, "ft_pipe done\n");
 	}
 }
