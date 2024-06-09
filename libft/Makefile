@@ -67,22 +67,22 @@ NAME = libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(AR) $@ $^
+	@$(AR) $@ $^
 
 bonus:
-	make WITH_BONUS=1
+	@make WITH_BONUS=1
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) $(CCFLAGS) -o $@ -c $<
+	@$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
