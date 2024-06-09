@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 17:50:53 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/09 18:40:00 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:52:10 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 char	**ft_gen_path_array(char **envp)
 {
-	int i = 0;
-	char **path_array;
-	char *path;
+	int		i;
+	char	**path_array;
+	char	*path;
 
+	i = 0;
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -36,7 +37,9 @@ char	**ft_gen_path_array(char **envp)
 
 void	ft_free_array(char **array)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (array[i] != NULL)
 	{
 		free(array[i]);
