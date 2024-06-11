@@ -54,10 +54,10 @@ $(LIBFT_DIR)/$(LIBFT):
 $(FTPRINTF_DIR)/$(FTPRINTF):
 	make -C $(FTPRINTF_DIR) all
 
-$(OBJDIR):
-	@mkdir -p $(OBJDIR)/$(GNL_DIR)
+$(OBJDIR)/$(GNL_DIR):
+	@mkdir -p $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)/$(GNL_DIR)
 	$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean:
