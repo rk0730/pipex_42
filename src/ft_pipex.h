@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipex.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:36:15 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/09 20:54:32 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/18 18:35:49 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
-# include "../ft_printf/ft_printf.h"
-# include "../libft/libft.h"
-# include "get_next_line/get_next_line.h"
+# include "ft_printf.h"
+# include "libft.h"
+# include "get_next_line.h"
 
 typedef struct s_cmd_info
 {
