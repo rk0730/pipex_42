@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exe_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/09 20:52:53 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:20:57 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 {
 	char	*tmp;
-	char	*full_cmd;
+	char	*cmd_path;
 	int		i;
 	char	**exe_argv;
 
@@ -23,24 +23,23 @@ static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 	while (path_array[i])
 	{
 		tmp = ft_strjoin(path_array[i], "/");
-		full_cmd = ft_strjoin(tmp, cmd);
+		exe_argv = ft_split(cmd, ' ');
+		cmd_path = ft_strjoin(tmp, exe_argv[0]);
 		free(tmp);
-		exe_argv = ft_split(full_cmd, ' ');
 		//実行可能かどうか確認する
-		if (access(exe_argv[0], X_OK) == 0)
+		if (access(cmd_path, X_OK) == 0)
 		{
-			if (execve(exe_argv[0], exe_argv, NULL) == -1)
+			if (execve(cmd_path, exe_argv, NULL) == -1)
 			{
 				perror("execve in ft_exe_rel_cmd");
 				exit(EXIT_FAILURE);
 			}
 		}
-		free(full_cmd);
+		free(cmd_path);
 		ft_free_array(exe_argv);
 		i++;
 	}
 	ft_printf_fd(STDERR_FILENO, "%s: command not found\n", cmd);
-	perror("command not found in ft_exe_rel_cmd");
 	exit(EXIT_FAILURE);
 }
 
