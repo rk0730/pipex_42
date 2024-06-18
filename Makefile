@@ -1,16 +1,13 @@
 CC = cc
-AR = ar rc
 CFLAGS = -Wall -Wextra -Werror
-INCLUDES = -I. -I$(LIBFT_DIR) -I$(FTPRINTF_DIR) -I$(GNL_DIR)
 
 LIBFT_DIR = libft
-LIBFT = libft.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
 FTPRINTF_DIR = ft_printf
-FTPRINTF = libftprintf.a
+FTPRINTF = $(FTPRINTF_DIR)/libftprintf.a
 
 SRCDIR = src
-
 SRCS = $(SRCDIR)/ft_main.c \
 	$(SRCDIR)/ft_check_arg.c \
 	$(SRCDIR)/ft_utils.c \
@@ -21,19 +18,21 @@ GNL_DIR = $(SRCDIR)/get_next_line
 SRCS += $(GNL_DIR)/get_next_line.c \
 	$(GNL_DIR)/get_next_line_utils.c
 
+INCLUDES = -I. -I$(LIBFT_DIR) -I$(FTPRINTF_DIR) -I$(GNL_DIR)
+
 NAME = pipex
 
 all: $(NAME)
 
 bonus: $(NAME)
 
-$(NAME): $(SRCS) $(LIBFT_DIR)/$(LIBFT) $(FTPRINTF_DIR)/$(FTPRINTF)
+$(NAME): $(SRCS) $(LIBFT) $(FTPRINTF)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
-$(LIBFT_DIR)/$(LIBFT):
+$(LIBFT):
 	make -C $(LIBFT_DIR) all
 
-$(FTPRINTF_DIR)/$(FTPRINTF):
+$(FTPRINTF):
 	make -C $(FTPRINTF_DIR) all
 
 clean:
