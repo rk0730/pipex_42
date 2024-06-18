@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/18 17:20:57 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/18 17:32:53 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 	i = 0;
 	while (path_array[i])
 	{
-		tmp = ft_strjoin(path_array[i], "/");
 		exe_argv = ft_split(cmd, ' ');
+		tmp = ft_strjoin(path_array[i], "/");
 		cmd_path = ft_strjoin(tmp, exe_argv[0]);
 		free(tmp);
 		//実行可能かどうか確認する
