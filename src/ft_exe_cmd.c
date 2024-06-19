@@ -6,7 +6,7 @@
 /*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/18 17:32:53 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/19 11:23:00 by kitaoryoma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	ft_exe_rel_cmd(char *cmd, char **path_array)
 	int		i;
 	char	**exe_argv;
 
+	//PATHから検索する
 	i = 0;
 	while (path_array[i])
 	{
@@ -47,21 +48,20 @@ void	ft_exe_cmd(char *cmd, char **path_array)
 {
 	char	**exe_argv;
 
-	if (*cmd == '/')
+	//直接実行可能
+	exe_argv = ft_split(cmd, ' ');
+	if (access(exe_argv[0], X_OK) == 0)
 	{
-		//絶対パス
-		exe_argv = ft_split(cmd, ' ');
 		if (execve(exe_argv[0], exe_argv, NULL) == -1)
 		{
-			perror("execve in ft_exe_cmd");
 			ft_printf_fd(STDERR_FILENO, "%s: %s", cmd, strerror(errno));
+			perror("execve in ft_exe_cmd");
 			exit(EXIT_FAILURE);
 		}
-		ft_free_array(exe_argv);
 	}
 	else
 	{
-		// 相対パス
 		ft_exe_rel_cmd(cmd, path_array);
 	}
+	ft_free_array(exe_argv);
 }
