@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exe_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kitaoryoma <kitaoryoma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:05:08 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/20 18:10:15 by kitaoryoma       ###   ########.fr       */
+/*   Updated: 2024/06/23 11:40:00 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	ft_find_and_exec(char *cmd, char **path_array)
 	int		i;
 	char	**exe_argv;
 
-	//PATHから検索する
 	i = 0;
 	exe_argv = ft_split(cmd, ' ');
 	while (path_array[i])
@@ -27,7 +26,6 @@ static void	ft_find_and_exec(char *cmd, char **path_array)
 		tmp = ft_strjoin(path_array[i], "/");
 		cmd_path = ft_strjoin(tmp, exe_argv[0]);
 		free(tmp);
-		//実行可能かどうか確認する
 		if (access(cmd_path, X_OK) == 0)
 		{
 			if (execve(cmd_path, exe_argv, NULL) == -1)
@@ -56,14 +54,8 @@ static void	ft_exec_direct(char *cmd)
 
 void	ft_exe_cmd(char *cmd, char **path_array)
 {
-
-	//そのまま実行する
 	if (ft_strchr(cmd, '/') != NULL)
-	{
 		ft_exec_direct(cmd);
-	}
 	else
-	{
 		ft_find_and_exec(cmd, path_array);
-	}
 }

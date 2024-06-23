@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 18:27:09 by rkitao            #+#    #+#             */
-/*   Updated: 2024/06/09 20:50:24 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/23 11:42:30 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ static void	ft_hear_doc_h(char **argv, int pipe_fd[2])
 	exit(EXIT_SUCCESS);
 }
 
-
-// argv[1]が"hear_doc"の時の呼ばれるもの
-// argv[2]をlimiterとし、argv[argc-1]は追記リダイレクトで開いてそれをout_fd_pに入れる
-static int	ft_hear_doc(int argc, char **argv, t_cmd_info *cmd_info_p, int *out_fd_p)
+static int	ft_hear_doc(int argc, char **argv, t_cmd_info *info_p, int *out_p)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -52,16 +49,16 @@ static int	ft_hear_doc(int argc, char **argv, t_cmd_info *cmd_info_p, int *out_f
 		ft_hear_doc_h(argv, pipe_fd);
 	close(pipe_fd[1]);
 	wait(NULL);
-	cmd_info_p->infile_fd = pipe_fd[0];
+	info_p->infile_fd = pipe_fd[0];
 	if (argc == 3)
 		return (1);
-	*out_fd_p = open(argv[argc - 1], O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (*out_fd_p == -1)
+	*out_p = open(argv[argc - 1], O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (*out_p == -1)
 		ft_printf_fd(STDERR_FILENO, "%s: %s\n", argv[argc - 1], strerror(errno));
 	if (argc == 4)
 		return (1);
-	cmd_info_p->first_cmd = 3;
-	cmd_info_p->argv = argv;
+	info_p->first_cmd = 3;
+	info_p->argv = argv;
 	return (0);
 }
 
