@@ -6,7 +6,7 @@
 /*   By: rkitao <rkitao@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 20:36:38 by kitaoryoma        #+#    #+#             */
-/*   Updated: 2024/06/09 20:51:54 by rkitao           ###   ########.fr       */
+/*   Updated: 2024/06/23 11:30:38 by rkitao           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,31 @@ static void	ft_first_cmd(t_cmd_info cmd_info, int cmd_count, int out_fd)
 
 static void	ft_parent(t_cmd_info cmd_info, int cmd_count, int out_fd, int pipe_fd[2])
 {
-	close(pipe_fd[1]);
-	dup2(pipe_fd[0], STDIN_FILENO);
-	close(pipe_fd[0]);
-	if (out_fd > 0)
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	else if (pid == 0)//子プロセス
 	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-		ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
+		if (out_fd > 0)
+		{
+			dup2(out_fd, STDOUT_FILENO);
+			close(out_fd);
+			ft_exe_cmd(cmd_info.argv[cmd_count], cmd_info.path_array);
+		}
+		exit(EXIT_FAILURE);
 	}
-	wait(NULL);
-	exit(EXIT_FAILURE);
+	else
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		wait(NULL);
+		wait(NULL);
+	}
 }
 
 static void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
@@ -52,10 +66,7 @@ static void	ft_recursive(t_cmd_info cmd_info, int cmd_count, int out_fd)
 	pipe(pipe_fd);
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork in ft_recursive");
 		exit(EXIT_FAILURE);
-	}
 	else if (pid == 0)//子プロセス
 		ft_recursive(cmd_info, cmd_count - 1, pipe_fd[1]);
 	else
